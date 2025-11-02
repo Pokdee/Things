@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+  height: 100dvh;
+  width: auto;
+  display: block;
+}
+
+.body {
+  display: block;
+  height: 100%;
+  display: flex;
+}
+.aside {
+  width: 30%;
+  height: 100%;
+  background-color: #f4f5f7;
+}
+.main {
+  width: 80%;
+  height: 100%;
+}

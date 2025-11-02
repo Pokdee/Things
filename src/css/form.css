@@ -1,0 +1,10 @@
+.inputForm {
+  /* background-color: aqua; */
+}
+.newTaskInput {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  border-bottom: 1px solid black;
+  height: 1.5rem;
+}
