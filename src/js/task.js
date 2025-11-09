@@ -1,17 +1,15 @@
 const newTaskForm = `<form action="" method="get" class="inputForm">
-      <input type="text" name="" id="taskName" class = "newTaskInput" autofocus/>
+      <input type="text" name="" id="taskName" class = "newTaskInput" minlength="3" autofocus/>
     </form>`;
 
-//add task to list
+//add new list to task area
 const addList = function (taskName, taskArea) {
   const taskList = document.createElement("li");
   taskList.classList.add("taskList");
   taskList.textContent = taskName;
-  // const taskArea = eventTarget.parentElement;
-  // console.log(taskArea);
   taskArea.appendChild(taskList);
 };
-//add and remove InputField
+//input field to get new list to task Area
 const getTaskName = function (taskArea) {
   taskArea.insertAdjacentHTML("beforeend", newTaskForm);
   const inputField = document.getElementById("taskName");
@@ -23,10 +21,18 @@ const getTaskName = function (taskArea) {
       taskName = e.target.value;
       addList(taskName, taskArea);
       inputField.remove();
+      taskArea.classList.remove("inputOn");
     }
   });
 };
 
+//add new area list
+
+const addNewAreaSection = function () {
+  console.log("new section");
+};
+
+//add New task Area with a Caption
 const addNewArea = function (taskName, container) {
   const taskArea = document.createElement("ul");
   const taskCaption = document.createElement("button");
@@ -45,9 +51,13 @@ const addNewArea = function (taskName, container) {
 };
 ///
 
+//function attach to event listener to call open input field function
 const addNewList = function (eventTarget) {
   const taskArea = eventTarget.parentElement;
-  getTaskName(taskArea, eventTarget);
+  if (!taskArea.classList.contains("inputOn")) {
+    taskArea.classList.add("inputOn");
+    getTaskName(taskArea);
+  }
 };
 
-export { addNewArea, addNewList };
+export { addNewArea, addNewList, addNewAreaSection };

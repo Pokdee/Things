@@ -1,4 +1,4 @@
-import { addNewArea, addNewList } from "./task.js";
+import { addNewArea, addNewList } from "./task";
 //
 const nav = document.createElement("nav");
 const captionUl = document.createElement("ul");
