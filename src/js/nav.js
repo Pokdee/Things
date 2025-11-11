@@ -3,7 +3,7 @@ import { addNewArea, addNewList } from "./task";
 const nav = document.createElement("nav");
 const captionUl = document.createElement("ul");
 const taskAreaCon = document.createElement("div");
-const btnNewTask = document.createElement("button");
+export const btnNewTask = document.createElement("button");
 //
 
 //
@@ -22,6 +22,8 @@ captionUl.classList.add("cap_ul");
 taskAreaCon.classList.add("taskAreaCon");
 btnNewTask.classList.add("btnNewTask");
 //
+//new task btn
+btnNewTask.textContent = "New Task";
 
 //function;
 const addChild = function (captionArr, parentElement, newElement, className) {
@@ -33,14 +35,11 @@ const addChild = function (captionArr, parentElement, newElement, className) {
   }
 };
 
-btnNewTask.textContent = "New Task";
-
 //
 
 nav.appendChild(captionUl);
 addChild(navListCaption, captionUl, "li", "cap_li");
 nav.appendChild(taskAreaCon);
-nav.appendChild(btnNewTask);
 //
 addNewArea("Family ", taskAreaCon);
 //add task to area

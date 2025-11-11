@@ -1,5 +1,6 @@
-const newTaskForm = `<form action="" method="get" class="inputForm">
+const newTaskForm = `<form  action="" method="get" class="inputForm">
       <input type="text" name="" id="taskName" class = "newTaskInput" minlength="3" autofocus/>
+      <label class="inputCross"for="taskName">X</label>
     </form>`;
 
 //add new list to task area
@@ -12,7 +13,11 @@ const addList = function (taskName, taskArea) {
 //input field to get new list to task Area
 const getTaskName = function (taskArea) {
   taskArea.insertAdjacentHTML("beforeend", newTaskForm);
+  const inputForm = document.querySelector(".inputForm");
   const inputField = document.getElementById("taskName");
+
+  // const inputForm = inputField.parentElement;
+  console.log(inputForm);
   inputField.focus();
   let taskName;
   inputField.addEventListener("keypress", (e) => {
@@ -20,7 +25,7 @@ const getTaskName = function (taskArea) {
       e.preventDefault();
       taskName = e.target.value;
       addList(taskName, taskArea);
-      inputField.remove();
+      inputForm.remove();
       taskArea.classList.remove("inputOn");
     }
   });

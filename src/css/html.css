@@ -20,6 +20,8 @@ html {
   width: 30%;
   height: 100%;
   background-color: #f4f5f7;
+  display: flex;
+  flex-direction: column;
 }
 .main {
   width: 80%;
