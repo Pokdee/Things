@@ -1,7 +1,13 @@
-const newTaskForm = `<form  action="" method="get" class="inputForm">
+const inputTaskName = `<form  action="" method="get" class="inputForm">
       <input type="text" name="" id="taskName" class = "newTaskInput" minlength="3" autofocus/>
       <label class="inputCross"for="taskName">X</label>
     </form>`;
+
+//close input form
+const closeInput = function (inputForm, taskArea) {
+  inputForm.remove();
+  taskArea.classList.remove("inputOn");
+};
 
 //add new list to task area
 const addList = function (taskName, taskArea) {
@@ -12,48 +18,22 @@ const addList = function (taskName, taskArea) {
 };
 //input field to get new list to task Area
 const getTaskName = function (taskArea) {
-  taskArea.insertAdjacentHTML("beforeend", newTaskForm);
+  taskArea.insertAdjacentHTML("beforeend", inputTaskName);
   const inputForm = document.querySelector(".inputForm");
   const inputField = document.getElementById("taskName");
 
-  // const inputForm = inputField.parentElement;
-  console.log(inputForm);
   inputField.focus();
-  let taskName;
   inputField.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      taskName = e.target.value;
-      addList(taskName, taskArea);
+      const taskName = e.target.value;
       inputForm.remove();
+      addList(taskName, taskArea);
       taskArea.classList.remove("inputOn");
     }
   });
 };
 
-//add new area list
-
-const addNewAreaSection = function () {
-  console.log("new section");
-};
-
-//add New task Area with a Caption
-const addNewArea = function (taskName, container) {
-  const taskArea = document.createElement("ul");
-  const taskCaption = document.createElement("button");
-  const plusTask = document.createElement("span");
-
-  taskArea.classList.add("taskArea");
-  taskCaption.classList.add("taskCaption");
-  plusTask.classList.add("plusTask");
-
-  taskCaption.textContent = taskName;
-  plusTask.textContent = "+";
-
-  taskCaption.appendChild(plusTask);
-  container.appendChild(taskArea);
-  taskArea.appendChild(taskCaption);
-};
 ///
 
 //function attach to event listener to call open input field function
@@ -65,4 +45,4 @@ const addNewList = function (eventTarget) {
   }
 };
 
-export { addNewArea, addNewList, addNewAreaSection };
+export { addNewList, closeInput };

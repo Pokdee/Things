@@ -1,4 +1,6 @@
-import { addNewArea, addNewList } from "./task";
+import { addNewList, closeInput } from "./task";
+import { getAreaName } from "./from";
+
 //
 const nav = document.createElement("nav");
 const captionUl = document.createElement("ul");
@@ -26,7 +28,13 @@ btnNewTask.classList.add("btnNewTask");
 btnNewTask.textContent = "New Task";
 
 //function;
-const addChild = function (captionArr, parentElement, newElement, className) {
+//add ul list to nav
+const addNavChild = function (
+  captionArr,
+  parentElement,
+  newElement,
+  className
+) {
   for (let i = 0; i < captionArr.length; i++) {
     const childElement = document.createElement(newElement);
     childElement.textContent = captionArr[i];
@@ -34,19 +42,31 @@ const addChild = function (captionArr, parentElement, newElement, className) {
     parentElement.appendChild(childElement);
   }
 };
+//add New Area
+const createNewArea = function (taskAreaCon) {
+  getAreaName(taskAreaCon);
+};
 
-//
+//adding element to nav section
 
 nav.appendChild(captionUl);
-addChild(navListCaption, captionUl, "li", "cap_li");
+addNavChild(navListCaption, captionUl, "li", "cap_li");
 nav.appendChild(taskAreaCon);
-//
-addNewArea("Family ", taskAreaCon);
+
+//add new area
+btnNewTask.addEventListener("click", (e) => {
+  createNewArea(taskAreaCon);
+});
 //add task to area
 taskAreaCon.addEventListener("click", (e) => {
   if (e.target.classList.contains("plusTask")) {
     const targetArea = e.target.parentElement;
     addNewList(targetArea);
+  }
+  if (e.target.classList.contains("inputCross")) {
+    const inputForm = e.target.parentElement;
+    const taskArea = inputForm.parentElement;
+    closeInput(inputForm, taskArea);
   }
 });
 

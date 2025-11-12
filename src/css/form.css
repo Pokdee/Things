@@ -12,7 +12,17 @@
 }
 
 .inputCross {
-  display: block;
   position: relative;
   left: 85%;
+  cursor: pointer;
+}
+
+.newAreaInput {
+  font-family: inherit;
+  text-indent: 10px;
+  border: none;
+  outline: none;
+  height: 1.5rem;
+  background-color: var(--new-area-input-bg-color);
+  font-weight: bold;
 }
