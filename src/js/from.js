@@ -5,11 +5,16 @@ const addNewArea = function (container, areaName) {
   const taskArea = document.createElement("ul");
   const taskCaption = document.createElement("button");
   const plusTask = document.createElement("span");
+
   taskArea.classList.add("taskArea");
   taskCaption.classList.add("taskCaption");
   plusTask.classList.add("plusTask");
+
+  taskArea.setAttribute("draggable", "true");
+
   taskCaption.textContent = areaName;
   plusTask.textContent = "+";
+
   taskCaption.appendChild(plusTask);
   container.appendChild(taskArea);
   taskArea.appendChild(taskCaption);
@@ -19,7 +24,7 @@ const addNewArea = function (container, areaName) {
 const getAreaName = function (taskAreaCon) {
   if (!taskAreaCon.classList.contains("inputOn")) {
     taskAreaCon.classList.add("inputOn");
-    taskAreaCon.insertAdjacentHTML("afterbegin", inputAreaName);
+    taskAreaCon.insertAdjacentHTML("beforeend", inputAreaName);
     const areaInput = document.querySelector(".newAreaInput");
     areaInput.focus();
     areaInput.addEventListener("keypress", (e) => {
@@ -34,4 +39,4 @@ const getAreaName = function (taskAreaCon) {
   }
 };
 
-export { getAreaName };
+export { getAreaName, addNewArea };

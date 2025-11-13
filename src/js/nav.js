@@ -1,5 +1,5 @@
 import { addNewList, closeInput } from "./task";
-import { getAreaName } from "./from";
+import { getAreaName, addNewArea } from "./from";
 
 //
 const nav = document.createElement("nav");
@@ -46,6 +46,10 @@ const addNavChild = function (
 const createNewArea = function (taskAreaCon) {
   getAreaName(taskAreaCon);
 };
+addNewArea(taskAreaCon, "Family");
+addNewArea(taskAreaCon, "Work");
+
+const taskAreas = document.querySelector(".taskArea");
 
 //adding element to nav section
 
@@ -68,6 +72,29 @@ taskAreaCon.addEventListener("click", (e) => {
     const taskArea = inputForm.parentElement;
     closeInput(inputForm, taskArea);
   }
+});
+
+//change area position by drag and drop
+
+let data;
+taskAreaCon.addEventListener("dragstart", (e) => {
+  // data = e.dataTransfer.setData("text/html", e.target);
+  data = e.target;
+});
+taskAreaCon.addEventListener("dragover", (e) => e.preventDefault());
+taskAreaCon.addEventListener("drop", (e) => {
+  const dropPlace = e.target.getBoundingClientRect();
+  const midpoint = dropPlace.top + dropPlace.height / 2;
+
+  console.log(e.clientY, "mouse");
+  console.log(midpoint, "target");
+  if (e.clientY < midpoint) {
+    console.log("upper");
+  } else {
+    console.log("below");
+  }
+  const dropPosition = e.clientY < midpoint ? "beforebegin" : "afterend";
+  e.target.parentElement.insertAdjacentElement(dropPosition, data);
 });
 
 //

@@ -45,4 +45,6 @@ const addNewList = function (eventTarget) {
   }
 };
 
+//make area draggable
+
 export { addNewList, closeInput };
