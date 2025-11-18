@@ -4,8 +4,10 @@
   --new-area-input-bg-color: #cfd0d2;
 
   --main-font: "Roboto", sans-serif;
+  --font-size-medium: 1.1rem;
 }
 
 @import "./html.css";
 @import "./nav.css";
 @import "./form.css";
+@import "dashboard.css";

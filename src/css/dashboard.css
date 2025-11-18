@@ -1,0 +1,27 @@
+.projectSection {
+  width: 100%;
+  height: 100%;
+  padding: 2.5rem;
+  padding-left: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.projectUl {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  font-size: var(--font-size-medium);
+  width: inherit;
+}
+
+.projectLi {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: inherit;
+}

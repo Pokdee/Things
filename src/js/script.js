@@ -2,6 +2,8 @@ import "../css/style.css";
 import nav from "./nav.js";
 import form from "./from.js";
 import { btnNewTask } from "./nav.js";
+import projectSection from "./dashboard.js";
+
 //
 const body = document.querySelector("body");
 const aside = document.createElement("aside");
@@ -14,3 +16,4 @@ body.appendChild(aside);
 body.appendChild(main);
 aside.appendChild(nav);
 nav.insertAdjacentElement("afterend", btnNewTask);
+main.appendChild(projectSection);

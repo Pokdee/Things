@@ -1,4 +1,4 @@
-import { addNewList, closeInput } from "./task";
+import { addNewList, closeInput } from "./area";
 import { getAreaName, addNewArea } from "./from";
 
 //
