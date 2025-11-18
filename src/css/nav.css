@@ -34,12 +34,15 @@
 }
 
 .taskAreaCon {
+  padding-top: 1rem;
   overflow-y: auto;
+  flex: 2 0 0;
+  display: flex;
+  flex-direction: column;
 }
 .taskArea {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
   list-style: none;
   margin-bottom: 1rem;
 }

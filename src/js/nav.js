@@ -48,6 +48,8 @@ const createNewArea = function (taskAreaCon) {
 };
 addNewArea(taskAreaCon, "Family");
 addNewArea(taskAreaCon, "Work");
+addNewArea(taskAreaCon, "Project");
+addNewArea(taskAreaCon, "Desk");
 
 const taskAreas = document.querySelector(".taskArea");
 
@@ -77,24 +79,49 @@ taskAreaCon.addEventListener("click", (e) => {
 //change area position by drag and drop
 
 let data;
+let notDragElements;
+let midPointsArray;
+let dragElementMidPoint;
 taskAreaCon.addEventListener("dragstart", (e) => {
-  // data = e.dataTransfer.setData("text/html", e.target);
   data = e.target;
+  const dataRect = data.getBoundingClientRect();
+  dragElementMidPoint = data.top + data.height / 2;
+  data.classList.add("dragging");
+  const areaArray = [...document.querySelectorAll(".taskArea")];
+
+  notDragElements = areaArray.filter(
+    (area) => !area.classList.contains("dragging")
+  );
+  midPointsArray = notDragElements.map((area) => {
+    let areaRect = area.getBoundingClientRect();
+    let areaMid = areaRect.top + areaRect.height / 2;
+    return areaMid;
+  });
 });
 taskAreaCon.addEventListener("dragover", (e) => e.preventDefault());
 taskAreaCon.addEventListener("drop", (e) => {
-  const dropPlace = e.target.getBoundingClientRect();
-  const midpoint = dropPlace.top + dropPlace.height / 2;
-
-  console.log(e.clientY, "mouse");
-  console.log(midpoint, "target");
-  if (e.clientY < midpoint) {
-    console.log("upper");
-  } else {
-    console.log("below");
+  if (
+    e.target.classList.contains("taskAreaCon") ||
+    e.target.classList.contains("taskArea")
+  ) {
+    if (!midPointsArray.length > 1) {
+      const midpoint = midPointsArray[0];
+      const target = notDragElements[0];
+      const dropPosition = e.clientY < midpoint ? "beforebegin" : "afterend";
+      target.insertAdjacentElement(dropPosition, data);
+    }
+    let midPointLestThanMouseY = midPointsArray.filter(
+      (point) => e.clientY > point
+    );
+    let upperAreaIndex = midPointsArray.indexOf(midPointLestThanMouseY.pop());
+    let upperArea = notDragElements[upperAreaIndex];
+    if (upperArea) {
+      upperArea.insertAdjacentElement("afterend", data);
+    } else {
+      taskAreaCon.insertAdjacentElement("afterbegin", data);
+    }
   }
-  const dropPosition = e.clientY < midpoint ? "beforebegin" : "afterend";
-  e.target.parentElement.insertAdjacentElement(dropPosition, data);
+  data.classList.remove("dragging");
 });
 
 //
