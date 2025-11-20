@@ -1,5 +1,6 @@
-import { addNewList, closeInput } from "./area";
+import { addNewList, changeAreaPosition, closeInput } from "./area";
 import { getAreaName, addNewArea } from "./from";
+import { openArea } from "./task";
 
 //
 const nav = document.createElement("nav");
@@ -77,53 +78,15 @@ taskAreaCon.addEventListener("click", (e) => {
 });
 
 //change area position by drag and drop
+changeAreaPosition(taskAreaCon);
 
-let data;
-let notDragElements;
-let midPointsArray;
-let dragElementMidPoint;
-taskAreaCon.addEventListener("dragstart", (e) => {
-  data = e.target;
-  const dataRect = data.getBoundingClientRect();
-  dragElementMidPoint = data.top + data.height / 2;
-  data.classList.add("dragging");
-  const areaArray = [...document.querySelectorAll(".taskArea")];
-
-  notDragElements = areaArray.filter(
-    (area) => !area.classList.contains("dragging")
-  );
-  midPointsArray = notDragElements.map((area) => {
-    let areaRect = area.getBoundingClientRect();
-    let areaMid = areaRect.top + areaRect.height / 2;
-    return areaMid;
-  });
-});
-taskAreaCon.addEventListener("dragover", (e) => e.preventDefault());
-taskAreaCon.addEventListener("drop", (e) => {
-  if (
-    e.target.classList.contains("taskAreaCon") ||
-    e.target.classList.contains("taskArea")
-  ) {
-    if (!midPointsArray.length > 1) {
-      const midpoint = midPointsArray[0];
-      const target = notDragElements[0];
-      const dropPosition = e.clientY < midpoint ? "beforebegin" : "afterend";
-      target.insertAdjacentElement(dropPosition, data);
-    }
-    let midPointLestThanMouseY = midPointsArray.filter(
-      (point) => e.clientY > point
-    );
-    let upperAreaIndex = midPointsArray.indexOf(midPointLestThanMouseY.pop());
-    let upperArea = notDragElements[upperAreaIndex];
-    if (upperArea) {
-      upperArea.insertAdjacentElement("afterend", data);
-    } else {
-      taskAreaCon.insertAdjacentElement("afterbegin", data);
-    }
+//access to do area
+nav.addEventListener("click", (e) => {
+  if (e.target.classList.contains("taskCaption")) {
+    const targetArea = e.target.parentElement;
+    const targetAreaId = targetArea.getAttribute("id");
+    openArea(targetAreaId);
   }
-  data.classList.remove("dragging");
 });
 
-//
-// addNewArea("Family", taskAreaCon);
 export default nav;

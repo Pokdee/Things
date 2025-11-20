@@ -11,6 +11,7 @@ const addNewArea = function (container, areaName) {
   plusTask.classList.add("plusTask");
 
   taskArea.setAttribute("draggable", "true");
+  taskArea.setAttribute("id", areaName);
 
   taskCaption.textContent = areaName;
   plusTask.textContent = "+";

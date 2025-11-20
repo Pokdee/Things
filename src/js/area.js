@@ -46,5 +46,53 @@ const addNewList = function (eventTarget) {
 };
 
 //make area draggable
+const changeAreaPosition = function (container) {
+  let data;
+  let notDragElements;
+  let midPointsArray;
+  let dragElementMidPoint;
+  container.addEventListener("dragstart", (e) => {
+    data = e.target;
+    const dataRect = data.getBoundingClientRect();
+    dragElementMidPoint = data.top + data.height / 2;
+    data.classList.add("dragging");
+    const areaArray = [...document.querySelectorAll(".taskArea")];
 
-export { addNewList, closeInput };
+    notDragElements = areaArray.filter(
+      (area) => !area.classList.contains("dragging")
+    );
+    midPointsArray = notDragElements.map((area) => {
+      let areaRect = area.getBoundingClientRect();
+      let areaMid = areaRect.top + areaRect.height / 2;
+      return areaMid;
+    });
+  });
+
+  container.addEventListener("dragover", (e) => e.preventDefault());
+  container.addEventListener("drop", (e) => {
+    if (
+      e.target.classList.contains("taskAreaCon") ||
+      e.target.classList.contains("taskArea")
+    ) {
+      if (!midPointsArray.length > 1) {
+        const midpoint = midPointsArray[0];
+        const target = notDragElements[0];
+        const dropPosition = e.clientY < midpoint ? "beforebegin" : "afterend";
+        target.insertAdjacentElement(dropPosition, data);
+      }
+      let midPointLestThanMouseY = midPointsArray.filter(
+        (point) => e.clientY > point
+      );
+      let upperAreaIndex = midPointsArray.indexOf(midPointLestThanMouseY.pop());
+      let upperArea = notDragElements[upperAreaIndex];
+      if (upperArea) {
+        upperArea.insertAdjacentElement("afterend", data);
+      } else {
+        container.insertAdjacentElement("afterbegin", data);
+      }
+    }
+    data.classList.remove("dragging");
+  });
+};
+
+export { addNewList, closeInput, changeAreaPosition };

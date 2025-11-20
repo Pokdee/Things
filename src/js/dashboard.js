@@ -1,22 +1,28 @@
 import { newTask } from "./task.js";
-
 //
-const projectSection = document.createElement("section");
-const projectHeading = document.createElement("h2");
-const projectUl = document.createElement("ul");
+const inputToDoHtml = `<form  action="" method="get" class="formToDo">
+      <input type="text" name="" id="taskName" class = "inputToDo" minlength="3"  autofocus/>
+      <textarea class="notesToDo" id="Notes" placeholder="Notes" ></textarea>
+    </form>`;
+//
+const toDoSection = document.createElement("section");
+const toDoHeading = document.createElement("h2");
+const toDoUl = document.createElement("ul");
 
 //classes
-projectSection.classList.add("projectSection");
-projectHeading.classList.add("projectHeading");
-projectUl.classList.add("projectUl");
+toDoSection.classList.add("toDoSection");
+toDoHeading.classList.add("toDoHeading");
+toDoUl.classList.add("toDoUl");
 
 //content
-projectHeading.textContent = "Project Heading";
-newTask(projectUl);
+// newTask(toDoUl);
 
 //add element
-projectSection.appendChild(projectHeading);
-projectSection.appendChild(projectUl);
+toDoSection.appendChild(toDoHeading);
+toDoSection.appendChild(toDoUl);
+toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
+
+//
 
 //export
-export default projectSection;
+export default toDoSection;
