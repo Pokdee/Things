@@ -15,20 +15,3 @@
 //     container.appendChild(projectLi);
 //   }
 // };
-
-const displayArea = function (areaId) {
-  const area = document.getElementById(areaId);
-  console.log(area);
-  const toDoHeading = document.querySelector(".toDoHeading");
-  const toDoUl = document.querySelector(".toDoUl");
-
-  //
-  toDoHeading.textContent = area.getAttribute("id");
-};
-
-//access area or to do
-const openArea = function (id) {
-  displayArea(id);
-};
-
-export { openArea };

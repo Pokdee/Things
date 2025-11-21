@@ -1,6 +1,6 @@
 import { addNewList, changeAreaPosition, closeInput } from "./area";
 import { getAreaName, addNewArea } from "./from";
-import { openArea } from "./task";
+import { openArea } from "./dashboard";
 
 //
 const nav = document.createElement("nav");
@@ -84,6 +84,7 @@ changeAreaPosition(taskAreaCon);
 nav.addEventListener("click", (e) => {
   if (e.target.classList.contains("taskCaption")) {
     const targetArea = e.target.parentElement;
+    targetArea.classList.add("toDoOpen");
     const targetAreaId = targetArea.getAttribute("id");
     openArea(targetAreaId);
   }

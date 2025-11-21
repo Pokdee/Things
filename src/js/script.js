@@ -2,7 +2,7 @@ import "../css/style.css";
 import nav from "./nav.js";
 import form from "./from.js";
 import { btnNewTask } from "./nav.js";
-import toDoSection from "./dashboard.js";
+import { toDoSection } from "./dashboard.js";
 
 //
 const body = document.querySelector("body");
