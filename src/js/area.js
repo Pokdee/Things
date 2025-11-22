@@ -36,7 +36,7 @@ const getTaskName = function (taskArea) {
 
 ///
 
-//function attach to event listener to call open input field function
+//add new list to area
 const addNewList = function (eventTarget) {
   const taskArea = eventTarget.parentElement;
   if (!taskArea.classList.contains("inputOn")) {

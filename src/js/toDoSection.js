@@ -17,4 +17,30 @@ const newTask = function (container, text) {
   container.appendChild(projectLi);
 };
 
-export { newTask };
+const newToDoInput = function (container) {
+  const inputField = document.getElementById("toDo");
+  const textHolder = document.querySelector(".inputHolder");
+  const formContainer = document.querySelector(".formContainer");
+  inputField.style.display = "block";
+  inputField.focus();
+
+  inputField.addEventListener("beforeinput", (e) => {
+    formContainer.classList.add("showForm");
+    if (e.inputType === "insertLineBreak") {
+      e.preventDefault();
+      formContainer.classList.remove("showForm");
+      newTask(container, inputField.value);
+      inputField.value = "";
+    }
+  });
+};
+
+const displayArea = function (areaId) {
+  const area = document.getElementById(areaId);
+  const toDoHeading = document.querySelector(".toDoHeading");
+
+  //
+  toDoHeading.textContent = area.getAttribute("id");
+};
+
+export { displayArea, newToDoInput };

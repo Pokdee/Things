@@ -32,7 +32,7 @@
   border-radius: 50%;
 }
 .toDoCheckbox:checked {
-  background-color: black;
+  background-color: rgba(252, 2, 2, 0.584);
 }
 
 .toDoText {
