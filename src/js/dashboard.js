@@ -2,12 +2,11 @@ import { newTask } from "./toDoSection.js";
 //
 const inputToDoHtml = `<div class="formContainer">
     <form  action="" method="get" class="formToDo">
-      <button class="btnCheckbox"></button>
-      <input  id="toDo"  class = "inputToDo" autofocus autocapitalize="on"/>
-      <span class = "inputHolder"></span>
-    </form>
-    <textarea class="notesToDo" id="Notes" placeholder="Notes" ></textarea>
-    </div>`;
+      <input type="checkbox" class="checkboxInput" name="checkbox"/>
+      <input type="text" id="toDo"  class="inputToDo" autofocus autocomplete="off"/>
+      </form>
+      <textarea class="notesToDo" id="Notes" placeholder="Notes" ></textarea>
+      </div>`;
 //
 const toDoSection = document.createElement("section");
 const toDoHeading = document.createElement("h2");
@@ -37,16 +36,20 @@ const displayArea = function (areaId) {
 };
 
 const listenToDoInput = function () {
-  const inputField = document.querySelector(".inputToDo");
+  const inputField = document.getElementById("toDo");
   const textHolder = document.querySelector(".inputHolder");
+  const formContainer = document.querySelector(".formContainer");
+  inputField.style.display = "block";
   inputField.focus();
-  let text = "";
 
   inputField.addEventListener("beforeinput", (e) => {
-    if (e.inputType !== "insertLineBreak") {
-      let letter = e.data;
-      text += letter;
-      textHolder.textContent = text;
+    formContainer.classList.add("showForm");
+    if (e.inputType === "insertLineBreak") {
+      e.preventDefault();
+      formContainer.classList.remove("showForm");
+      console.log(inputField.value);
+      newTask(toDoUl, inputField.value);
+      inputField.value = "";
     }
   });
 };

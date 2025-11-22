@@ -1,17 +1,20 @@
-// const newTask = function (container) {
-//   for (let i = 0; i < 5; i++) {
-//     const projectLi = document.createElement("li");
-//     const taskName = document.createElement("label");
-//     const taskCheckBox = document.createElement("input");
-//     //
-//     taskCheckBox.setAttribute("type", "checkbox");
-//     taskCheckBox.setAttribute("name", `task ${i + 1}`);
-//     taskName.setAttribute("for", `task ${i + 1}`);
-//     taskName.textContent = `task ${i + 1}`;
-//     //
-//     projectLi.classList.add("toDoLi");
-//     projectLi.appendChild(taskCheckBox);
-//     projectLi.appendChild(taskName);
-//     container.appendChild(projectLi);
-//   }
-// };
+const newTask = function (container, text) {
+  const projectLi = document.createElement("li");
+  const taskName = document.createElement("label");
+  const taskCheckBox = document.createElement("input");
+
+  //add class
+  projectLi.classList.add("toDoLi");
+  taskName.classList.add("toDoText");
+  taskCheckBox.classList.add("toDoCheckbox");
+  //
+  taskCheckBox.setAttribute("type", "checkbox");
+  taskName.textContent = text;
+  //
+  projectLi.classList.add("toDoLi");
+  projectLi.appendChild(taskCheckBox);
+  projectLi.appendChild(taskName);
+  container.appendChild(projectLi);
+};
+
+export { newTask };
