@@ -80,7 +80,7 @@ taskAreaCon.addEventListener("click", (e) => {
 //change area position by drag and drop
 changeAreaPosition(taskAreaCon);
 
-//access to do area
+//access to do area and open to dashboard
 nav.addEventListener("click", (e) => {
   if (e.target.classList.contains("taskCaption")) {
     const targetArea = e.target.parentElement;

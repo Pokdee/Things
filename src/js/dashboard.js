@@ -1,10 +1,11 @@
-import { displayArea, newToDoInput } from "./toDoSection.js";
+import { displayArea, newToDoInput, closeToDoInput } from "./toDoSection.js";
 //
 const inputToDoHtml = `<div class="formContainer">
+     <span class="formCloseBtn">X</span>
     <form  action="" method="get" class="formToDo">
-      <input type="checkbox" class="checkboxInput" name="checkbox"/>
-      <input type="text" id="toDo"  class="inputToDo" autofocus autocomplete="off"/>
-      </form>
+     <input type="checkbox" class="checkboxInput" name="checkbox"/>
+     <input type="text" id="toDo"  class="inputToDo" autofocus autocomplete="off"/>
+    </form>
       <textarea class="notesToDo" id="Notes" placeholder="Notes" ></textarea>
       </div>`;
 //
@@ -30,8 +31,16 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 //access area or to do
 const openArea = function (id) {
   displayArea(id);
-  newToDoInput(toDoUl);
+  toDoSection.addEventListener("click", (e) => {
+    newToDoInput(toDoUl);
+  });
 };
+
+toDoSection.addEventListener("click", (e) => {
+  if (e.target.classList.contains("formCloseBtn")) {
+    closeToDoInput();
+  }
+});
 
 //export
 export { openArea, toDoSection };

@@ -19,7 +19,6 @@ const newTask = function (container, text) {
 
 const newToDoInput = function (container) {
   const inputField = document.getElementById("toDo");
-  const textHolder = document.querySelector(".inputHolder");
   const formContainer = document.querySelector(".formContainer");
   inputField.style.display = "block";
   inputField.focus();
@@ -35,6 +34,14 @@ const newToDoInput = function (container) {
   });
 };
 
+const closeToDoInput = function () {
+  const inputField = document.getElementById("toDo");
+  const formContainer = document.querySelector(".formContainer");
+  formContainer.classList.remove("showForm");
+  inputField.value = "";
+  inputField.style.display = "none";
+};
+
 const displayArea = function (areaId) {
   const area = document.getElementById(areaId);
   const toDoHeading = document.querySelector(".toDoHeading");
@@ -43,4 +50,4 @@ const displayArea = function (areaId) {
   toDoHeading.textContent = area.getAttribute("id");
 };
 
-export { displayArea, newToDoInput };
+export { displayArea, newToDoInput, closeToDoInput };
