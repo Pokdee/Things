@@ -1,7 +1,7 @@
-const inputAreaName = `<input type="text" name="" id="taskName" class ="newAreaInput" minlength="3" placeholder="New Area" autofocus/>`;
+const inputAreaName = `<input type="text" name="" id="taskName" class ="newAreaInput" minlength="3" placeholder="New Area" autocomplete='off' autofocus/>`;
 
-//add New Area with a name
-const addNewArea = function (container, areaName) {
+//add Area to Nav bar
+const addArea = function (container, areaName) {
   const taskArea = document.createElement("ul");
   const taskCaption = document.createElement("button");
   const plusTask = document.createElement("span");
@@ -10,15 +10,41 @@ const addNewArea = function (container, areaName) {
   taskCaption.classList.add("taskCaption");
   plusTask.classList.add("plusTask");
 
+  //
   taskArea.setAttribute("draggable", "true");
   taskArea.setAttribute("id", areaName);
 
+  //
   taskCaption.textContent = areaName;
   plusTask.textContent = "+";
 
+  //
   taskCaption.appendChild(plusTask);
-  container.appendChild(taskArea);
   taskArea.appendChild(taskCaption);
+  container.appendChild(taskArea);
+};
+
+//save new area to local storage
+const saveAreaToStorage = function (newArea) {
+  const savedArea = JSON.parse(localStorage.getItem("SaveArea"));
+  if (savedArea) {
+    savedArea[newArea] = {};
+
+    localStorage.setItem("SaveArea", JSON.stringify(savedArea));
+  } else {
+    const dataToSave = JSON.stringify({ [newArea]: {} });
+    localStorage.setItem("SaveArea", dataToSave);
+  }
+};
+
+//load save area when app open
+const loadArea = function (taskAreaCon) {
+  const savedArea = JSON.parse(localStorage.getItem("SaveArea"));
+  if (savedArea) {
+    Object.keys(savedArea).forEach((area) => {
+      addArea(taskAreaCon, area);
+    });
+  }
 };
 
 //get name for new area
@@ -33,11 +59,12 @@ const getAreaName = function (taskAreaCon) {
         e.preventDefault();
         const areaName = areaInput.value;
         areaInput.remove();
-        addNewArea(taskAreaCon, areaName);
+        saveAreaToStorage(areaName);
+        addArea(taskAreaCon, areaName);
         taskAreaCon.classList.remove("inputOn");
       }
     });
   }
 };
 
-export { getAreaName, addNewArea };
+export { getAreaName, addArea, loadArea };

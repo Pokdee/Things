@@ -1,13 +1,14 @@
 import "../css/style.css";
-import nav from "./nav.js";
-import form from "./from.js";
+import { nav, taskAreaCon } from "./nav.js";
 import { btnNewTask } from "./nav.js";
 import { toDoSection } from "./dashboard.js";
+import { loadArea } from "./form.js";
 
 //
 const body = document.querySelector("body");
 const aside = document.createElement("aside");
 const main = document.createElement("main");
+
 //
 aside.classList.add("aside");
 main.classList.add("main");
@@ -17,3 +18,6 @@ body.appendChild(main);
 aside.appendChild(nav);
 nav.insertAdjacentElement("afterend", btnNewTask);
 main.appendChild(toDoSection);
+
+//load old data
+loadArea(taskAreaCon);

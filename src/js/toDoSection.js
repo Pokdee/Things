@@ -1,4 +1,4 @@
-const newTask = function (container, text) {
+const newTask = function (container, text, areaId) {
   const projectLi = document.createElement("li");
   const taskName = document.createElement("label");
   const taskCheckBox = document.createElement("input");
@@ -15,9 +15,24 @@ const newTask = function (container, text) {
   projectLi.appendChild(taskCheckBox);
   projectLi.appendChild(taskName);
   container.appendChild(projectLi);
+
+  //save it to storage
+  console.log(text);
+  saveToDo(areaId, text);
 };
 
-const newToDoInput = function (container) {
+//function save new to do to localstorage
+const saveToDo = function (areaId, toDo) {
+  const savedItems = JSON.parse(localStorage.getItem(areaId));
+  const savedItemsLength = Object.keys(savedItems).length;
+
+  savedItems[savedItemsLength] = toDo;
+
+  const newDataToSave = JSON.stringify(savedItems);
+  localStorage.setItem(areaId, newDataToSave);
+};
+
+const newToDoInput = function (toDoListContainer, areaId) {
   const inputField = document.getElementById("toDo");
   const formContainer = document.querySelector(".formContainer");
   inputField.style.display = "block";
@@ -28,7 +43,7 @@ const newToDoInput = function (container) {
     if (e.inputType === "insertLineBreak") {
       e.preventDefault();
       formContainer.classList.remove("showForm");
-      newTask(container, inputField.value);
+      newTask(toDoListContainer, inputField.value, areaId);
       inputField.value = "";
     }
   });
@@ -42,6 +57,7 @@ const closeToDoInput = function () {
   inputField.style.display = "none";
 };
 
+//open area info to dashboard
 const displayArea = function (areaId) {
   const area = document.getElementById(areaId);
   const toDoHeading = document.querySelector(".toDoHeading");

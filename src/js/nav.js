@@ -1,5 +1,5 @@
 import { addNewList, changeAreaPosition, closeInput } from "./area";
-import { getAreaName, addNewArea } from "./from";
+import { getAreaName } from "./form";
 import { openArea } from "./dashboard";
 
 //
@@ -47,15 +47,10 @@ const addNavChild = function (
 const createNewArea = function (taskAreaCon) {
   getAreaName(taskAreaCon);
 };
-addNewArea(taskAreaCon, "Family");
-addNewArea(taskAreaCon, "Work");
-addNewArea(taskAreaCon, "Project");
-addNewArea(taskAreaCon, "Desk");
 
 const taskAreas = document.querySelector(".taskArea");
 
 //adding element to nav section
-
 nav.appendChild(captionUl);
 addNavChild(navListCaption, captionUl, "li", "cap_li");
 nav.appendChild(taskAreaCon);
@@ -90,4 +85,4 @@ nav.addEventListener("click", (e) => {
   }
 });
 
-export default nav;
+export { nav, taskAreaCon };

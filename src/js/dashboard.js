@@ -28,14 +28,16 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 
 //
 
-//access area or to do
-const openArea = function (id) {
-  displayArea(id);
+//access area or to do and make input standby for new to do
+const openArea = function (areaId) {
+  // localStorage.clear();
+  displayArea(areaId);
   toDoSection.addEventListener("click", (e) => {
-    newToDoInput(toDoUl);
+    newToDoInput(toDoUl, areaId);
   });
 };
 
+//close input form if no need
 toDoSection.addEventListener("click", (e) => {
   if (e.target.classList.contains("formCloseBtn")) {
     closeToDoInput();
