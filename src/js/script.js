@@ -9,6 +9,8 @@ const body = document.querySelector("body");
 const aside = document.createElement("aside");
 const main = document.createElement("main");
 
+//save data key
+
 //
 aside.classList.add("aside");
 main.classList.add("main");

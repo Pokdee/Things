@@ -1,4 +1,6 @@
-const newTask = function (container, text, areaId) {
+import savedDataKey from "./form";
+
+const displayTask = function (container, text) {
   const projectLi = document.createElement("li");
   const taskName = document.createElement("label");
   const taskCheckBox = document.createElement("input");
@@ -15,21 +17,19 @@ const newTask = function (container, text, areaId) {
   projectLi.appendChild(taskCheckBox);
   projectLi.appendChild(taskName);
   container.appendChild(projectLi);
-
-  //save it to storage
-  console.log(text);
-  saveToDo(areaId, text);
 };
 
 //function save new to do to localstorage
 const saveToDo = function (areaId, toDo) {
-  const savedItems = JSON.parse(localStorage.getItem(areaId));
-  const savedItemsLength = Object.keys(savedItems).length;
+  const savedItems = JSON.parse(localStorage.getItem(savedDataKey));
+  const toDoOfAreaId = savedItems[areaId];
+  const savedAreaIdToDoLength = Object.keys(toDoOfAreaId).length;
 
-  savedItems[savedItemsLength] = toDo;
+  toDoOfAreaId[savedAreaIdToDoLength] = toDo;
+  savedItems[areaId] = toDoOfAreaId;
 
   const newDataToSave = JSON.stringify(savedItems);
-  localStorage.setItem(areaId, newDataToSave);
+  localStorage.setItem(savedDataKey, newDataToSave);
 };
 
 const newToDoInput = function (toDoListContainer, areaId) {
@@ -41,9 +41,11 @@ const newToDoInput = function (toDoListContainer, areaId) {
   inputField.addEventListener("beforeinput", (e) => {
     formContainer.classList.add("showForm");
     if (e.inputType === "insertLineBreak") {
+      const newToDo = inputField.value;
       e.preventDefault();
       formContainer.classList.remove("showForm");
-      newTask(toDoListContainer, inputField.value, areaId);
+      displayTask(toDoListContainer, newToDo, areaId);
+      saveToDo(areaId, newToDo);
       inputField.value = "";
     }
   });
@@ -58,12 +60,21 @@ const closeToDoInput = function () {
 };
 
 //open area info to dashboard
-const displayArea = function (areaId) {
+const displayArea = function (areaId, container) {
   const area = document.getElementById(areaId);
   const toDoHeading = document.querySelector(".toDoHeading");
 
   //
   toDoHeading.textContent = area.getAttribute("id");
+
+  const savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
+
+  //clear previous html of todo container
+  container.innerHTML = "";
+  if (savedToDos) {
+    const toDoOfAreaId = savedToDos[areaId];
+    Object.keys(toDoOfAreaId).forEach((todo) => displayTask(container, todo));
+  }
 };
 
 export { displayArea, newToDoInput, closeToDoInput };

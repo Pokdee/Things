@@ -84,5 +84,6 @@ nav.addEventListener("click", (e) => {
     openArea(targetAreaId);
   }
 });
+// localStorage.clear();
 
 export { nav, taskAreaCon };

@@ -1,3 +1,6 @@
+const savedDataKey = "SaveArea";
+
+///
 const inputAreaName = `<input type="text" name="" id="taskName" class ="newAreaInput" minlength="3" placeholder="New Area" autocomplete='off' autofocus/>`;
 
 //add Area to Nav bar
@@ -26,20 +29,20 @@ const addArea = function (container, areaName) {
 
 //save new area to local storage
 const saveAreaToStorage = function (newArea) {
-  const savedArea = JSON.parse(localStorage.getItem("SaveArea"));
+  const savedArea = JSON.parse(localStorage.getItem(savedDataKey));
   if (savedArea) {
     savedArea[newArea] = {};
 
-    localStorage.setItem("SaveArea", JSON.stringify(savedArea));
+    localStorage.setItem(savedDataKey, JSON.stringify(savedArea));
   } else {
     const dataToSave = JSON.stringify({ [newArea]: {} });
-    localStorage.setItem("SaveArea", dataToSave);
+    localStorage.setItem(savedDataKey, dataToSave);
   }
 };
 
 //load save area when app open
 const loadArea = function (taskAreaCon) {
-  const savedArea = JSON.parse(localStorage.getItem("SaveArea"));
+  const savedArea = JSON.parse(localStorage.getItem(savedDataKey));
   if (savedArea) {
     Object.keys(savedArea).forEach((area) => {
       addArea(taskAreaCon, area);
@@ -66,5 +69,7 @@ const getAreaName = function (taskAreaCon) {
     });
   }
 };
+
+export default savedDataKey;
 
 export { getAreaName, addArea, loadArea };
