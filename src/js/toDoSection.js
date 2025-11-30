@@ -32,49 +32,57 @@ const saveToDo = function (areaId, toDo) {
   localStorage.setItem(savedDataKey, newDataToSave);
 };
 
-const newToDoInput = function (toDoListContainer, areaId) {
-  const inputField = document.getElementById("toDo");
-  const formContainer = document.querySelector(".formContainer");
-  inputField.style.display = "block";
-  inputField.focus();
-
-  inputField.addEventListener("beforeinput", (e) => {
-    formContainer.classList.add("showForm");
-    if (e.inputType === "insertLineBreak") {
-      const newToDo = inputField.value;
-      e.preventDefault();
-      formContainer.classList.remove("showForm");
-      displayTask(toDoListContainer, newToDo, areaId);
-      saveToDo(areaId, newToDo);
-      inputField.value = "";
-    }
-  });
-};
-
 const closeToDoInput = function () {
   const inputField = document.getElementById("toDo");
   const formContainer = document.querySelector(".formContainer");
   formContainer.classList.remove("showForm");
   inputField.value = "";
-  inputField.style.display = "none";
 };
 
 //open area info to dashboard
 const displayArea = function (areaId, container) {
   const area = document.getElementById(areaId);
-  const toDoHeading = document.querySelector(".toDoHeading");
 
+  container.innerHTML = "";
+  const toDoHeading = document.querySelector(".toDoHeading");
   //
   toDoHeading.textContent = area.getAttribute("id");
 
   const savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
 
   //clear previous html of todo container
-  container.innerHTML = "";
   if (savedToDos) {
     const toDoOfAreaId = savedToDos[areaId];
-    Object.keys(toDoOfAreaId).forEach((todo) => displayTask(container, todo));
+    Object.values(toDoOfAreaId).forEach((todo) => displayTask(container, todo));
   }
+
+  ///////
+  newToDoInput(container, areaId);
+};
+
+//open form of new to do input
+let currentAreaId;
+const newToDoInput = function (container, areaId) {
+  currentAreaId = areaId;
+  const inputField = document.querySelector(".inputToDo");
+  const formBox = document.querySelector(".formContainer");
+  inputField.focus();
+
+  //
+  inputField.addEventListener("beforeinput", (e) => {
+    if (e.inputType === "insertText") {
+      formBox.classList.add("showForm");
+    }
+    if (e.inputType === "insertLineBreak") {
+      e.preventDefault();
+      if (inputField.value) {
+        const newToDo = inputField.value;
+        displayTask(container, newToDo);
+        saveToDo(currentAreaId, newToDo);
+        closeToDoInput();
+      }
+    }
+  });
 };
 
 export { displayArea, newToDoInput, closeToDoInput };

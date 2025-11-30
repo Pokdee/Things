@@ -1,4 +1,4 @@
-const savedDataKey = "SaveArea";
+const savedDataKey = "SavedData";
 
 ///
 const inputAreaName = `<input type="text" name="" id="taskName" class ="newAreaInput" minlength="3" placeholder="New Area" autocomplete='off' autofocus/>`;
