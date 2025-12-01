@@ -108,3 +108,7 @@
   text-indent: 2px;
 }
 /* to do  */
+.checkedToDo {
+  opacity: 70%;
+  text-decoration: line-through;
+}

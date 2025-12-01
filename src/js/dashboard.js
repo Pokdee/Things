@@ -31,6 +31,7 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 //access area or to do and make input standby for new to do
 const openArea = function (areaId) {
   displayArea(areaId, toDoUl);
+  doneToDo();
   // newToDoInput(toDoUl, areaId);
 };
 
@@ -41,5 +42,17 @@ toDoSection.addEventListener("click", (e) => {
   }
 });
 
+//check mark of finish todos
+const doneToDo = function () {
+  const toDoList = document.querySelectorAll(".toDoCheckbox");
+  toDoList.forEach((checkBox) => {
+    checkBox.addEventListener("change", (e) => {
+      const checkbox = e.target;
+      const label = checkBox.nextElementSibling;
+
+      label.classList.add("checkedToDo");
+    });
+  });
+};
 //export
-export { openArea, toDoSection };
+export { openArea, toDoSection, doneToDo };

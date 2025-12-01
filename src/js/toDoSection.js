@@ -9,8 +9,13 @@ const displayTask = function (container, text) {
   projectLi.classList.add("toDoLi");
   taskName.classList.add("toDoText");
   taskCheckBox.classList.add("toDoCheckbox");
-  //
+
+  //add attribute
   taskCheckBox.setAttribute("type", "checkbox");
+  taskCheckBox.setAttribute("id", `${text}`);
+  taskName.setAttribute("for", `${text}`);
+
+  //
   taskName.textContent = text;
   //
   projectLi.classList.add("toDoLi");
@@ -61,6 +66,8 @@ const displayArea = function (areaId, container) {
 };
 
 //open form of new to do input
+
+//try changing area id by area heading
 let currentAreaId;
 const newToDoInput = function (container, areaId) {
   currentAreaId = areaId;
