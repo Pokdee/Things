@@ -1,6 +1,17 @@
 import savedDataKey from "./form";
 
-const displayTask = function (container, text) {
+//to Do Class
+class ToDo {
+  constructor(toDo, id, Done = false) {
+    this.toDo = toDo;
+    this.id = id;
+    this.Done = Done;
+  }
+}
+
+//
+
+const displayTask = function (container, text, id, status = false) {
   const projectLi = document.createElement("li");
   const taskName = document.createElement("label");
   const taskCheckBox = document.createElement("input");
@@ -14,6 +25,7 @@ const displayTask = function (container, text) {
   taskCheckBox.setAttribute("type", "checkbox");
   taskCheckBox.setAttribute("id", `${text}`);
   taskName.setAttribute("for", `${text}`);
+  taskName.setAttribute("id", id);
 
   //
   taskName.textContent = text;
@@ -25,12 +37,11 @@ const displayTask = function (container, text) {
 };
 
 //function save new to do to localstorage
-const saveToDo = function (areaId, toDo) {
+const saveToDo = function (areaId, toDo, id) {
   const savedItems = JSON.parse(localStorage.getItem(savedDataKey));
   const toDoOfAreaId = savedItems[areaId];
-  const savedAreaIdToDoLength = Object.keys(toDoOfAreaId).length;
-
-  toDoOfAreaId[savedAreaIdToDoLength] = toDo;
+  let toDoData = new ToDo(toDo, id);
+  toDoOfAreaId[id] = toDoData;
   savedItems[areaId] = toDoOfAreaId;
 
   const newDataToSave = JSON.stringify(savedItems);
@@ -58,7 +69,9 @@ const displayArea = function (areaId, container) {
   //clear previous html of todo container
   if (savedToDos) {
     const toDoOfAreaId = savedToDos[areaId];
-    Object.values(toDoOfAreaId).forEach((todo) => displayTask(container, todo));
+    Object.values(toDoOfAreaId).forEach((todo) => {
+      displayTask(container, todo.toDo, todo.id, todo.Done);
+    });
   }
 
   ///////
@@ -69,6 +82,7 @@ const displayArea = function (areaId, container) {
 
 //try changing area id by area heading
 let currentAreaId;
+let newToDoId = 1;
 const newToDoInput = function (container, areaId) {
   currentAreaId = areaId;
   const inputField = document.querySelector(".inputToDo");
@@ -84,9 +98,10 @@ const newToDoInput = function (container, areaId) {
       e.preventDefault();
       if (inputField.value) {
         const newToDo = inputField.value;
-        displayTask(container, newToDo);
-        saveToDo(currentAreaId, newToDo);
+        displayTask(container, newToDo, newToDoId);
+        saveToDo(currentAreaId, newToDo, newToDoId);
         closeToDoInput();
+        newToDoId++;
       }
     }
   });

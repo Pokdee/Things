@@ -47,10 +47,14 @@ const doneToDo = function () {
   const toDoList = document.querySelectorAll(".toDoCheckbox");
   toDoList.forEach((checkBox) => {
     checkBox.addEventListener("change", (e) => {
-      const checkbox = e.target;
       const label = checkBox.nextElementSibling;
-
-      label.classList.add("checkedToDo");
+      const toDoBox = checkBox.parentElement;
+      const checkedToDo = label.classList.contains("checkedToDo");
+      if (checkedToDo) {
+        label.classList.remove("checkedToDo");
+      } else {
+        label.classList.add("checkedToDo");
+      }
     });
   });
 };
