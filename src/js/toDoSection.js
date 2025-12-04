@@ -1,17 +1,17 @@
 import savedDataKey from "./form";
 
 //to Do Class
-class ToDo {
-  constructor(toDo, id, Done = false) {
-    this.toDo = toDo;
-    this.id = id;
-    this.Done = Done;
-  }
-}
+const createToDo = function (id, toDo, checked = false) {
+  return {
+    id,
+    toDo,
+    checked,
+  };
+};
 
 //
 
-const displayTask = function (container, text, id, status = false) {
+const displayTask = function (container, toDo) {
   const projectLi = document.createElement("li");
   const taskName = document.createElement("label");
   const taskCheckBox = document.createElement("input");
@@ -23,12 +23,12 @@ const displayTask = function (container, text, id, status = false) {
 
   //add attribute
   taskCheckBox.setAttribute("type", "checkbox");
-  taskCheckBox.setAttribute("id", `${text}`);
-  taskName.setAttribute("for", `${text}`);
-  taskName.setAttribute("id", id);
+  taskCheckBox.setAttribute("id", `${toDo.toDo}`);
+  taskName.setAttribute("for", `${toDo.toDo}`);
+  taskName.setAttribute("id", toDo.id);
 
   //
-  taskName.textContent = text;
+  taskName.textContent = toDo.toDo;
   //
   projectLi.classList.add("toDoLi");
   projectLi.appendChild(taskCheckBox);
@@ -37,22 +37,23 @@ const displayTask = function (container, text, id, status = false) {
 };
 
 //function save new to do to localstorage
-const saveToDo = function (areaId, toDo, id) {
-  const savedItems = JSON.parse(localStorage.getItem(savedDataKey));
-  const toDoOfAreaId = savedItems[areaId];
-  let toDoData = new ToDo(toDo, id);
-  toDoOfAreaId[id] = toDoData;
+const saveToDo = function (areaId, toDo) {
+  let savedItems = JSON.parse(localStorage.getItem(savedDataKey));
+  let toDoOfAreaId = savedItems[areaId];
+
+  //check if data with this id already exists
+
+  toDoOfAreaId[toDo.id] = toDo;
+  console.log(toDoOfAreaId);
   savedItems[areaId] = toDoOfAreaId;
+
+  //if exists
+  // let modifiedToDoData = createToDo(toDo.id, toDo.toDo, toDo.checked);
+  // toDoOfAreaId[toDo.id] = modifiedToDoData;
+  // savedItems[areaId] = modifiedToDoData;
 
   const newDataToSave = JSON.stringify(savedItems);
   localStorage.setItem(savedDataKey, newDataToSave);
-};
-
-const closeToDoInput = function () {
-  const inputField = document.getElementById("toDo");
-  const formContainer = document.querySelector(".formContainer");
-  formContainer.classList.remove("showForm");
-  inputField.value = "";
 };
 
 //open area info to dashboard
@@ -64,13 +65,13 @@ const displayArea = function (areaId, container) {
   //
   toDoHeading.textContent = area.getAttribute("id");
 
-  const savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
-
+  let savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
   //clear previous html of todo container
   if (savedToDos) {
-    const toDoOfAreaId = savedToDos[areaId];
+    let toDoOfAreaId = savedToDos[areaId];
+    // console.log(toDoOfAreaId);
     Object.values(toDoOfAreaId).forEach((todo) => {
-      displayTask(container, todo.toDo, todo.id, todo.Done);
+      displayTask(container, todo);
     });
   }
 
@@ -82,11 +83,16 @@ const displayArea = function (areaId, container) {
 
 //try changing area id by area heading
 let currentAreaId;
-let newToDoId = 1;
+let newToDoId;
 const newToDoInput = function (container, areaId) {
   currentAreaId = areaId;
   const inputField = document.querySelector(".inputToDo");
   const formBox = document.querySelector(".formContainer");
+  const savedData = JSON.parse(localStorage.getItem(savedDataKey));
+  const areaIdSavedData = savedData[currentAreaId];
+  const areaIdSavedDataLength = Object.keys(areaIdSavedData).length;
+  newToDoId = areaIdSavedData ? areaIdSavedDataLength : 0;
+
   inputField.focus();
 
   //
@@ -98,13 +104,20 @@ const newToDoInput = function (container, areaId) {
       e.preventDefault();
       if (inputField.value) {
         const newToDo = inputField.value;
-        displayTask(container, newToDo, newToDoId);
-        saveToDo(currentAreaId, newToDo, newToDoId);
+        const toDo = createToDo(newToDoId, newToDo);
+        saveToDo(currentAreaId, toDo);
+        displayTask(container, toDo);
         closeToDoInput();
-        newToDoId++;
       }
     }
   });
 };
 
-export { displayArea, newToDoInput, closeToDoInput };
+const closeToDoInput = function () {
+  const inputField = document.getElementById("toDo");
+  const formContainer = document.querySelector(".formContainer");
+  formContainer.classList.remove("showForm");
+  inputField.value = "";
+};
+
+export { displayArea, newToDoInput, saveToDo, closeToDoInput };

@@ -1,4 +1,4 @@
-import { displayArea, newToDoInput, closeToDoInput } from "./toDoSection.js";
+import { displayArea, closeToDoInput, saveToDo } from "./toDoSection.js";
 //
 const inputToDoHtml = `<div class="formContainer">
      <span class="formCloseBtn">X</span>
@@ -31,7 +31,7 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 //access area or to do and make input standby for new to do
 const openArea = function (areaId) {
   displayArea(areaId, toDoUl);
-  doneToDo();
+  doneToDo(areaId);
   // newToDoInput(toDoUl, areaId);
 };
 
@@ -43,17 +43,19 @@ toDoSection.addEventListener("click", (e) => {
 });
 
 //check mark of finish todos
-const doneToDo = function () {
+const doneToDo = function (areaId) {
   const toDoList = document.querySelectorAll(".toDoCheckbox");
   toDoList.forEach((checkBox) => {
     checkBox.addEventListener("change", (e) => {
       const label = checkBox.nextElementSibling;
-      const toDoBox = checkBox.parentElement;
+      const labelId = label.getAttribute("id");
       const checkedToDo = label.classList.contains("checkedToDo");
+      //
       if (checkedToDo) {
         label.classList.remove("checkedToDo");
       } else {
         label.classList.add("checkedToDo");
+        // saveToDo(areaId);
       }
     });
   });

@@ -59,6 +59,7 @@ nav.appendChild(taskAreaCon);
 btnNewTask.addEventListener("click", (e) => {
   createNewArea(taskAreaCon);
 });
+
 //add task to area
 taskAreaCon.addEventListener("click", (e) => {
   if (e.target.classList.contains("plusTask")) {
