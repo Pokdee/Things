@@ -1,4 +1,9 @@
-import { displayArea, closeToDoInput, saveToDo } from "./toDoSection.js";
+import {
+  displayArea,
+  closeToDoInput,
+  saveToDo,
+  updateCheckedToDo,
+} from "./toDoSection.js";
 //
 const inputToDoHtml = `<div class="formContainer">
      <span class="formCloseBtn">X</span>
@@ -19,7 +24,6 @@ toDoHeading.classList.add("toDoHeading");
 toDoUl.classList.add("toDoUl");
 
 //content
-// newTask(toDoUl);
 
 //add element
 toDoSection.appendChild(toDoHeading);
@@ -31,7 +35,6 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 //access area or to do and make input standby for new to do
 const openArea = function (areaId) {
   displayArea(areaId, toDoUl);
-  doneToDo(areaId);
   // newToDoInput(toDoUl, areaId);
 };
 
@@ -43,22 +46,30 @@ toDoSection.addEventListener("click", (e) => {
 });
 
 //check mark of finish todos
-const doneToDo = function (areaId) {
+const doneToDo = function (areaId, savedToDos) {
   const toDoList = document.querySelectorAll(".toDoCheckbox");
   toDoList.forEach((checkBox) => {
     checkBox.addEventListener("change", (e) => {
       const label = checkBox.nextElementSibling;
       const labelId = label.getAttribute("id");
       const checkedToDo = label.classList.contains("checkedToDo");
+      const areaIdToDo = savedToDos[areaId];
       //
+
       if (checkedToDo) {
         label.classList.remove("checkedToDo");
+        areaIdToDo[labelId].checked = false;
       } else {
         label.classList.add("checkedToDo");
-        // saveToDo(areaId);
+        areaIdToDo[labelId].checked = true;
       }
+      //update memory
+      //get id from todo label
+
+      updateCheckedToDo(areaId, labelId, savedToDos);
     });
   });
 };
+
 //export
 export { openArea, toDoSection, doneToDo };

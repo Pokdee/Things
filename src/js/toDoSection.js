@@ -1,5 +1,7 @@
 import savedDataKey from "./form";
 
+import { doneToDo } from "./dashboard";
+
 //to Do Class
 const createToDo = function (id, toDo, checked = false) {
   return {
@@ -75,13 +77,15 @@ const displayArea = function (areaId, container) {
     });
   }
 
-  ///////
+  ///////new todo
   newToDoInput(container, areaId);
+
+  ///checked finish todo
+  doneToDo(areaId, savedToDos);
 };
 
 //open form of new to do input
 
-//try changing area id by area heading
 let currentAreaId;
 let newToDoId;
 const newToDoInput = function (container, areaId) {
@@ -113,6 +117,22 @@ const newToDoInput = function (container, areaId) {
   });
 };
 
+//update save todo data when checked
+const updateCheckedToDo = function (areaId, todoId, savedToDos) {
+  const areaIdSaveData = savedToDos[areaId];
+  const toDoIdSavedData = areaIdSaveData[todoId];
+  const checkedToDo = toDoIdSavedData.checked;
+  if (checkedToDo) {
+    toDoIdSavedData.checked = false;
+    saveToDo(areaId, toDoIdSavedData);
+  }
+  if (!checkedToDo) {
+    toDoIdSavedData.checked = true;
+    console.log(toDoIdSavedData);
+    saveToDo(areaId, toDoIdSavedData);
+  }
+};
+
 const closeToDoInput = function () {
   const inputField = document.getElementById("toDo");
   const formContainer = document.querySelector(".formContainer");
@@ -120,4 +140,10 @@ const closeToDoInput = function () {
   inputField.value = "";
 };
 
-export { displayArea, newToDoInput, saveToDo, closeToDoInput };
+export {
+  displayArea,
+  newToDoInput,
+  saveToDo,
+  closeToDoInput,
+  updateCheckedToDo,
+};
