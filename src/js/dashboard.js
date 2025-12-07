@@ -52,16 +52,15 @@ const doneToDo = function (areaId, savedToDos) {
     checkBox.addEventListener("change", (e) => {
       const label = checkBox.nextElementSibling;
       const labelId = label.getAttribute("id");
-      const checkedToDo = label.classList.contains("checkedToDo");
       const areaIdToDo = savedToDos[areaId];
+      const savedToDoData = areaIdToDo[labelId];
+      const checkedToDo = savedToDoData.checked;
       //
 
       if (checkedToDo) {
         label.classList.remove("checkedToDo");
-        areaIdToDo[labelId].checked = false;
       } else {
         label.classList.add("checkedToDo");
-        areaIdToDo[labelId].checked = true;
       }
       //update memory
       //get id from todo label

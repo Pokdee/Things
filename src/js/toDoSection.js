@@ -14,6 +14,7 @@ const createToDo = function (id, toDo, checked = false) {
 //
 
 const displayTask = function (container, toDo) {
+  console.log(toDo);
   const projectLi = document.createElement("li");
   const taskName = document.createElement("label");
   const taskCheckBox = document.createElement("input");
@@ -26,6 +27,10 @@ const displayTask = function (container, toDo) {
   //add attribute
   taskCheckBox.setAttribute("type", "checkbox");
   taskCheckBox.setAttribute("id", `${toDo.toDo}`);
+  if (toDo.checked) {
+    taskCheckBox.checked = true;
+    taskName.classList.add("checkedToDo");
+  }
   taskName.setAttribute("for", `${toDo.toDo}`);
   taskName.setAttribute("id", toDo.id);
 
@@ -62,15 +67,16 @@ const saveToDo = function (areaId, toDo) {
 const displayArea = function (areaId, container) {
   const area = document.getElementById(areaId);
 
+  //clear previous html of todo container
   container.innerHTML = "";
+
   const toDoHeading = document.querySelector(".toDoHeading");
   //
   toDoHeading.textContent = area.getAttribute("id");
 
   let savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
-  //clear previous html of todo container
-  if (savedToDos) {
-    let toDoOfAreaId = savedToDos[areaId];
+  let toDoOfAreaId = savedToDos[areaId];
+  if (savedToDos && toDoOfAreaId) {
     // console.log(toDoOfAreaId);
     Object.values(toDoOfAreaId).forEach((todo) => {
       displayTask(container, todo);
