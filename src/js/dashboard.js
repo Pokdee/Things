@@ -1,9 +1,12 @@
 import {
   displayArea,
+  newToDoInput,
   closeToDoInput,
   saveToDo,
   updateCheckedToDo,
 } from "./toDoSection.js";
+
+import savedDataKey from "./form.js";
 //
 const inputToDoHtml = `<div class="formContainer">
      <span class="formCloseBtn">X</span>
@@ -35,7 +38,8 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 //access area or to do and make input standby for new to do
 const openArea = function (areaId) {
   displayArea(areaId, toDoUl);
-  // newToDoInput(toDoUl, areaId);
+
+  newToDoInput(toDoUl, areaId);
 };
 
 //close input form if no need

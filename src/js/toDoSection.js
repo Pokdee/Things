@@ -14,7 +14,6 @@ const createToDo = function (id, toDo, checked = false) {
 //
 
 const displayTask = function (container, toDo) {
-  console.log(toDo);
   const projectLi = document.createElement("li");
   const taskName = document.createElement("label");
   const taskCheckBox = document.createElement("input");
@@ -48,16 +47,8 @@ const saveToDo = function (areaId, toDo) {
   let savedItems = JSON.parse(localStorage.getItem(savedDataKey));
   let toDoOfAreaId = savedItems[areaId];
 
-  //check if data with this id already exists
-
   toDoOfAreaId[toDo.id] = toDo;
-  console.log(toDoOfAreaId);
   savedItems[areaId] = toDoOfAreaId;
-
-  //if exists
-  // let modifiedToDoData = createToDo(toDo.id, toDo.toDo, toDo.checked);
-  // toDoOfAreaId[toDo.id] = modifiedToDoData;
-  // savedItems[areaId] = modifiedToDoData;
 
   const newDataToSave = JSON.stringify(savedItems);
   localStorage.setItem(savedDataKey, newDataToSave);
@@ -77,14 +68,10 @@ const displayArea = function (areaId, container) {
   let savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
   let toDoOfAreaId = savedToDos[areaId];
   if (savedToDos && toDoOfAreaId) {
-    // console.log(toDoOfAreaId);
     Object.values(toDoOfAreaId).forEach((todo) => {
       displayTask(container, todo);
     });
   }
-
-  ///////new todo
-  newToDoInput(container, areaId);
 
   ///checked finish todo
   doneToDo(areaId, savedToDos);
@@ -92,35 +79,43 @@ const displayArea = function (areaId, container) {
 
 //open form of new to do input
 
-let currentAreaId;
-let newToDoId;
+let beforeInputHandler = null;
 const newToDoInput = function (container, areaId) {
-  currentAreaId = areaId;
   const inputField = document.querySelector(".inputToDo");
   const formBox = document.querySelector(".formContainer");
-  const savedData = JSON.parse(localStorage.getItem(savedDataKey));
-  const areaIdSavedData = savedData[currentAreaId];
-  const areaIdSavedDataLength = Object.keys(areaIdSavedData).length;
-  newToDoId = areaIdSavedData ? areaIdSavedDataLength : 0;
-
   inputField.focus();
 
-  //
-  inputField.addEventListener("beforeinput", (e) => {
+  if (beforeInputHandler) {
+    inputField.removeEventListener("beforeinput", beforeInputHandler);
+  }
+
+  beforeInputHandler = function (e) {
     if (e.inputType === "insertText") {
       formBox.classList.add("showForm");
     }
     if (e.inputType === "insertLineBreak") {
       e.preventDefault();
+      //
+
       if (inputField.value) {
+        ///////new todo
+        let savedData = JSON.parse(localStorage.getItem(savedDataKey));
+        let areaIdSavedData = savedData[areaId];
+        let areaIdSavedDataLength = Object.keys(areaIdSavedData).length;
+        let newToDoId = areaIdSavedData ? areaIdSavedDataLength : 0;
+        //
+
         const newToDo = inputField.value;
         const toDo = createToDo(newToDoId, newToDo);
-        saveToDo(currentAreaId, toDo);
+
+        saveToDo(areaId, toDo);
         displayTask(container, toDo);
         closeToDoInput();
       }
     }
-  });
+  };
+
+  inputField.addEventListener("beforeinput", beforeInputHandler);
 };
 
 //update save todo data when checked
