@@ -2,7 +2,7 @@ import "../css/style.css";
 import { nav, taskAreaCon } from "./nav.js";
 import { btnNewTask } from "./nav.js";
 import { toDoSection } from "./dashboard.js";
-import { loadArea } from "./form.js";
+import { loadArea } from "./areaForm.js";
 
 //
 const body = document.querySelector("body");

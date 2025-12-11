@@ -1,5 +1,5 @@
 import { addNewList, changeAreaPosition, closeInput } from "./area";
-import { getAreaName } from "./form";
+import { getAreaName } from "./areaForm";
 import { openArea } from "./dashboard";
 
 //
@@ -48,8 +48,6 @@ const createNewArea = function (taskAreaCon) {
   getAreaName(taskAreaCon);
 };
 
-const taskAreas = document.querySelector(".taskArea");
-
 //adding element to nav section
 nav.appendChild(captionUl);
 addNavChild(navListCaption, captionUl, "li", "cap_li");
@@ -76,15 +74,35 @@ taskAreaCon.addEventListener("click", (e) => {
 //change area position by drag and drop
 changeAreaPosition(taskAreaCon);
 
-//access to do area and open to dashboard
-nav.addEventListener("click", (e) => {
-  if (e.target.classList.contains("taskCaption")) {
-    const targetArea = e.target.parentElement;
-    targetArea.classList.add("toDoOpen");
-    const targetAreaId = targetArea.getAttribute("id");
-    openArea(targetAreaId);
+//access to do area or area's task and open to dashboard
+
+const openAreaHandler = function (handler) {
+  if (handler) {
+    console.log("old");
+    nav.removeEventListener("click", handler);
   }
-});
+
+  handler = function (e) {
+    if (
+      e.target.classList.contains("taskCaption") ||
+      e.target.classList.contains("taskList")
+    ) {
+      let target = e.target.parentElement;
+      if (!e.target.classList.contains("taskCaption")) {
+        target = e.target;
+      }
+      const targetId = target.getAttribute("id");
+      console.log(targetId);
+      openArea(targetId);
+    }
+  };
+  nav.addEventListener("click", handler);
+};
+
+let navOpenAreaHandler = null;
+
+openAreaHandler(navOpenAreaHandler);
+
 // localStorage.clear();
 
 export { nav, taskAreaCon };

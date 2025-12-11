@@ -9,7 +9,12 @@
   gap: 2rem;
 }
 
-.toDoUl {
+.projectUl {
+  display: none;
+}
+
+.toDoUl,
+.projectUl {
   display: flex;
   flex-direction: column;
   align-items: flex-start;

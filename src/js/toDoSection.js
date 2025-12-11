@@ -1,4 +1,4 @@
-import savedDataKey from "./form";
+import savedDataKey from "./areaForm";
 
 import { doneToDo } from "./dashboard";
 
@@ -147,4 +147,5 @@ export {
   saveToDo,
   closeToDoInput,
   updateCheckedToDo,
+  createToDo,
 };

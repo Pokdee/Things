@@ -1,6 +1,9 @@
+import savedDataKey from "./areaForm";
+import { createToDo } from "./toDoSection";
+
 const inputTaskName = `<form  action="" method="get" class="inputForm">
-      <input type="text" name="" id="taskName" class = "newTaskInput" minlength="3" autofocus/>
-      <label class="inputCross"for="taskName">X</label>
+      <input type="text" name="" id="taskName" class = "newTaskInput" minlength="3" autocomplete='off' autofocus/>
+      <button class="inputCross" >X</button>
     </form>`;
 
 //close input form
@@ -9,11 +12,32 @@ const closeInput = function (inputForm, taskArea) {
   taskArea.classList.remove("inputOn");
 };
 
+//save new list to its area storage
+const saveList = function (project, area) {
+  let savedData = JSON.parse(localStorage.getItem(savedDataKey));
+  let areaId = area.getAttribute("id");
+  let areaIdSavedData = savedData[areaId];
+  let areaIdProject = areaIdSavedData.areaProjects;
+  let areaIdProjectLength = Object.keys(areaIdProject).length;
+  let projectId = areaIdProject ? areaIdProjectLength : 0;
+
+  let newProject = createToDo(projectId, project);
+
+  areaIdProject[newProject.id] = newProject;
+
+  localStorage.setItem(savedDataKey, JSON.stringify(savedData));
+};
 //add new list to task area
-const addList = function (taskName, taskArea) {
+const displayList = function (taskName, taskArea) {
   const taskList = document.createElement("li");
+
   taskList.classList.add("taskList");
+
+  taskList.setAttribute("id", taskName);
+  taskList.setAttribute("dataType", "Project");
+  //
   taskList.textContent = taskName;
+  //
   taskArea.appendChild(taskList);
 };
 //input field to get new list to task Area
@@ -28,7 +52,8 @@ const getTaskName = function (taskArea) {
       e.preventDefault();
       const taskName = e.target.value;
       inputForm.remove();
-      addList(taskName, taskArea);
+      displayList(taskName, taskArea);
+      saveList(taskName, taskArea);
       taskArea.classList.remove("inputOn");
     }
   });

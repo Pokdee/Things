@@ -14,8 +14,10 @@ const addArea = function (container, areaName) {
   plusTask.classList.add("plusTask");
 
   //
+
   taskArea.setAttribute("draggable", "true");
   taskArea.setAttribute("id", areaName);
+  taskCaption.setAttribute("dataType", "Area");
 
   //
   taskCaption.textContent = areaName;
@@ -27,15 +29,24 @@ const addArea = function (container, areaName) {
   container.appendChild(taskArea);
 };
 
+const createNewAreaData = function (areaName) {
+  return {
+    areaProjects: {},
+    areaToDo: {},
+  };
+};
+
 //save new area to local storage
 const saveAreaToStorage = function (newArea) {
   const savedArea = JSON.parse(localStorage.getItem(savedDataKey));
   if (savedArea) {
-    savedArea[newArea] = {};
+    savedArea[newArea] = createNewAreaData(newArea);
 
     localStorage.setItem(savedDataKey, JSON.stringify(savedArea));
   } else {
-    const dataToSave = JSON.stringify({ [newArea]: {} });
+    const dataToSave = JSON.stringify({
+      [newArea]: createNewAreaData(newArea),
+    });
     localStorage.setItem(savedDataKey, dataToSave);
   }
 };

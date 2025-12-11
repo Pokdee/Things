@@ -2,11 +2,10 @@ import {
   displayArea,
   newToDoInput,
   closeToDoInput,
-  saveToDo,
   updateCheckedToDo,
 } from "./toDoSection.js";
 
-import savedDataKey from "./form.js";
+import savedDataKey from "./areaForm.js";
 //
 const inputToDoHtml = `<div class="formContainer">
      <span class="formCloseBtn">X</span>
@@ -16,21 +15,25 @@ const inputToDoHtml = `<div class="formContainer">
     </form>
       <textarea class="notesToDo" id="Notes" placeholder="Notes" ></textarea>
       </div>`;
-//
+//element for dashboard display
 const toDoSection = document.createElement("section");
 const toDoHeading = document.createElement("h2");
+const projectUl = document.createElement("ul");
 const toDoUl = document.createElement("ul");
 
 //classes
 toDoSection.classList.add("toDoSection");
 toDoHeading.classList.add("toDoHeading");
+projectUl.classList.add("projectUl");
 toDoUl.classList.add("toDoUl");
 
 //content
 
 //add element
 toDoSection.appendChild(toDoHeading);
+toDoSection.appendChild(projectUl);
 toDoSection.appendChild(toDoUl);
+
 toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 
 //
