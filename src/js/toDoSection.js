@@ -45,11 +45,12 @@ const displayTask = function (container, toDo) {
 //function save new to do to localstorage
 const saveToDo = function (areaId, toDo) {
   let savedItems = JSON.parse(localStorage.getItem(savedDataKey));
-  let toDoOfAreaId = savedItems[areaId];
+  let toDoOfAreaId = savedItems[areaId].areaToDo;
+  console.log(toDoOfAreaId);
 
   toDoOfAreaId[toDo.id] = toDo;
-  savedItems[areaId] = toDoOfAreaId;
 
+  console.log(savedItems);
   const newDataToSave = JSON.stringify(savedItems);
   localStorage.setItem(savedDataKey, newDataToSave);
 };
@@ -66,7 +67,7 @@ const displayArea = function (areaId, container) {
   toDoHeading.textContent = area.getAttribute("id");
 
   let savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
-  let toDoOfAreaId = savedToDos[areaId];
+  let toDoOfAreaId = savedToDos[areaId].areaToDo;
   if (savedToDos && toDoOfAreaId) {
     Object.values(toDoOfAreaId).forEach((todo) => {
       displayTask(container, todo);
@@ -100,7 +101,7 @@ const newToDoInput = function (container, areaId) {
       if (inputField.value) {
         ///////new todo
         let savedData = JSON.parse(localStorage.getItem(savedDataKey));
-        let areaIdSavedData = savedData[areaId];
+        let areaIdSavedData = savedData[areaId].areaToDo;
         let areaIdSavedDataLength = Object.keys(areaIdSavedData).length;
         let newToDoId = areaIdSavedData ? areaIdSavedDataLength : 0;
         //

@@ -52,14 +52,6 @@ const saveAreaToStorage = function (newArea) {
 };
 
 //load save area when app open
-const loadArea = function (taskAreaCon) {
-  const savedArea = JSON.parse(localStorage.getItem(savedDataKey));
-  if (savedArea) {
-    Object.keys(savedArea).forEach((area) => {
-      addArea(taskAreaCon, area);
-    });
-  }
-};
 
 //get name for new area
 const getAreaName = function (taskAreaCon) {
@@ -83,4 +75,4 @@ const getAreaName = function (taskAreaCon) {
 
 export default savedDataKey;
 
-export { getAreaName, addArea, loadArea };
+export { getAreaName, addArea };

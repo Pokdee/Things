@@ -1,6 +1,12 @@
-import { addNewList, changeAreaPosition, closeInput } from "./area";
-import { getAreaName } from "./areaForm";
+import {
+  addNewList,
+  changeAreaPosition,
+  displayList,
+  closeInput,
+} from "./area";
+import { getAreaName, addArea } from "./areaForm";
 import { openArea } from "./dashboard";
+import savedDataKey from "./areaForm";
 
 //
 const nav = document.createElement("nav");
@@ -43,6 +49,26 @@ const addNavChild = function (
     parentElement.appendChild(childElement);
   }
 };
+
+//load data
+const loadArea = function (taskAreaCon) {
+  const savedArea = JSON.parse(localStorage.getItem(savedDataKey));
+  if (!savedArea) return;
+  const areaList = Object.keys(savedArea);
+
+  if (savedArea) {
+    areaList.forEach((area) => {
+      addArea(taskAreaCon, area);
+      if (savedArea[area].areaProjects) {
+        let projectList = Object.values(savedArea[area].areaProjects);
+        projectList.forEach((project) => {
+          let projectContainer = document.getElementById(area);
+          displayList(project.toDo, projectContainer);
+        });
+      }
+    });
+  }
+};
 //add New Area
 const createNewArea = function (taskAreaCon) {
   getAreaName(taskAreaCon);
@@ -78,7 +104,6 @@ changeAreaPosition(taskAreaCon);
 
 const openAreaHandler = function (handler) {
   if (handler) {
-    console.log("old");
     nav.removeEventListener("click", handler);
   }
 
@@ -92,7 +117,6 @@ const openAreaHandler = function (handler) {
         target = e.target;
       }
       const targetId = target.getAttribute("id");
-      console.log(targetId);
       openArea(targetId);
     }
   };
@@ -105,4 +129,4 @@ openAreaHandler(navOpenAreaHandler);
 
 // localStorage.clear();
 
-export { nav, taskAreaCon };
+export { nav, taskAreaCon, loadArea };

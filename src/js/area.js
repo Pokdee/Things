@@ -18,7 +18,7 @@ const saveList = function (project, area) {
   let areaId = area.getAttribute("id");
   let areaIdSavedData = savedData[areaId];
   let areaIdProject = areaIdSavedData.areaProjects;
-  let areaIdProjectLength = Object.keys(areaIdProject).length;
+  let areaIdProjectLength = Object.keys(areaIdProject)?.length;
   let projectId = areaIdProject ? areaIdProjectLength : 0;
 
   let newProject = createToDo(projectId, project);
@@ -120,4 +120,4 @@ const changeAreaPosition = function (container) {
   });
 };
 
-export { addNewList, closeInput, changeAreaPosition };
+export { addNewList, closeInput, changeAreaPosition, displayList };
