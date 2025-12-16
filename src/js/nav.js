@@ -60,19 +60,16 @@ const loadArea = function (taskAreaCon) {
     areaList.forEach((area) => {
       addArea(taskAreaCon, area);
       if (savedArea[area].areaProjects) {
-        let projectList = Object.values(savedArea[area].areaProjects);
+        let projectList = Object.keys(savedArea[area].areaProjects);
         projectList.forEach((project) => {
           let projectContainer = document.getElementById(area);
-          displayList(project.toDo, projectContainer);
+          displayList(project, projectContainer);
         });
       }
     });
   }
 };
 //add New Area
-const createNewArea = function (taskAreaCon) {
-  getAreaName(taskAreaCon);
-};
 
 //adding element to nav section
 nav.appendChild(captionUl);
@@ -81,7 +78,7 @@ nav.appendChild(taskAreaCon);
 
 //add new area
 btnNewTask.addEventListener("click", (e) => {
-  createNewArea(taskAreaCon);
+  getAreaName(taskAreaCon);
 });
 
 //add task to area
@@ -104,7 +101,7 @@ changeAreaPosition(taskAreaCon);
 
 const openAreaHandler = function (handler) {
   if (handler) {
-    nav.removeEventListener("click", handler);
+    taskAreaCon.removeEventListener("click", handler);
   }
 
   handler = function (e) {
@@ -112,15 +109,14 @@ const openAreaHandler = function (handler) {
       e.target.classList.contains("taskCaption") ||
       e.target.classList.contains("taskList")
     ) {
-      let target = e.target.parentElement;
-      if (!e.target.classList.contains("taskCaption")) {
-        target = e.target;
-      }
-      const targetId = target.getAttribute("id");
-      openArea(targetId);
+      const area = e.target.parentElement;
+      const targetId = e.target.getAttribute("id");
+      const targetType = e.target.getAttribute("datatype");
+      openArea(area, targetId, targetType);
     }
   };
-  nav.addEventListener("click", handler);
+
+  taskAreaCon.addEventListener("click", handler);
 };
 
 let navOpenAreaHandler = null;

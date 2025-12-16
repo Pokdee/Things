@@ -39,10 +39,10 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 //
 
 //access area or to do and make input standby for new to do
-const openArea = function (areaId) {
-  displayArea(areaId, toDoUl);
+const openArea = function (area, elementId, type) {
+  displayArea(area, elementId, type, toDoUl);
 
-  newToDoInput(toDoUl, areaId);
+  // newToDoInput(toDoUl, id);
 };
 
 //close input form if no need
@@ -59,7 +59,7 @@ const doneToDo = function (areaId, savedToDos) {
     checkBox.addEventListener("change", (e) => {
       const label = checkBox.nextElementSibling;
       const labelId = label.getAttribute("id");
-      const areaIdToDo = savedToDos[areaId];
+      const areaIdToDo = savedToDos[areaId].areaToDo;
       const savedToDoData = areaIdToDo[labelId];
       const checkedToDo = savedToDoData.checked;
       //

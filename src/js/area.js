@@ -6,6 +6,12 @@ const inputTaskName = `<form  action="" method="get" class="inputForm">
       <button class="inputCross" >X</button>
     </form>`;
 
+//
+//create a new project
+
+const newProject = function (projectName) {
+  return { [projectName]: {} };
+};
 //close input form
 const closeInput = function (inputForm, taskArea) {
   inputForm.remove();
@@ -21,9 +27,7 @@ const saveList = function (project, area) {
   let areaIdProjectLength = Object.keys(areaIdProject)?.length;
   let projectId = areaIdProject ? areaIdProjectLength : 0;
 
-  let newProject = createToDo(projectId, project);
-
-  areaIdProject[newProject.id] = newProject;
+  areaIdProject[project] = {};
 
   localStorage.setItem(savedDataKey, JSON.stringify(savedData));
 };

@@ -17,6 +17,7 @@ const addArea = function (container, areaName) {
 
   taskArea.setAttribute("draggable", "true");
   taskArea.setAttribute("id", areaName);
+  taskCaption.setAttribute("id", areaName);
   taskCaption.setAttribute("dataType", "Area");
 
   //

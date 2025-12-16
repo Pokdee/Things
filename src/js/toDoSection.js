@@ -56,26 +56,31 @@ const saveToDo = function (areaId, toDo) {
 };
 
 //open area info to dashboard
-const displayArea = function (areaId, container) {
-  const area = document.getElementById(areaId);
-
+const displayArea = function (area, elementId, elementType, container) {
+  const areaId = area.getAttribute("id");
   //clear previous html of todo container
   container.innerHTML = "";
 
   const toDoHeading = document.querySelector(".toDoHeading");
   //
-  toDoHeading.textContent = area.getAttribute("id");
 
   let savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
-  let toDoOfAreaId = savedToDos[areaId].areaToDo;
-  if (savedToDos && toDoOfAreaId) {
-    Object.values(toDoOfAreaId).forEach((todo) => {
+  let toDoOfId;
+  toDoHeading.textContent = elementType === "Area" ? areaId : elementId;
+
+  if (elementType === "Area") {
+    toDoOfId = savedToDos[areaId].areaToDo;
+  } else {
+    toDoOfId = savedToDos[areaId].areaProjects[elementId];
+  }
+  if (savedToDos && toDoOfId) {
+    Object.values(toDoOfId).forEach((todo) => {
       displayTask(container, todo);
     });
   }
 
   ///checked finish todo
-  doneToDo(areaId, savedToDos);
+  // doneToDo(id, savedToDos);
 };
 
 //open form of new to do input
@@ -121,7 +126,7 @@ const newToDoInput = function (container, areaId) {
 
 //update save todo data when checked
 const updateCheckedToDo = function (areaId, todoId, savedToDos) {
-  const areaIdSaveData = savedToDos[areaId];
+  const areaIdSaveData = savedToDos[areaId].areaToDo;
   const toDoIdSavedData = areaIdSaveData[todoId];
   const checkedToDo = toDoIdSavedData.checked;
   if (checkedToDo) {
