@@ -40,9 +40,11 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 
 //access area or to do and make input standby for new to do
 const openArea = function (area, elementId, type) {
-  displayArea(area, elementId, type, toDoUl);
+  let areaId = area.getAttribute("id");
 
-  // newToDoInput(toDoUl, id);
+  displayArea(areaId, elementId, type, toDoUl);
+
+  newToDoInput(toDoUl, areaId, elementId, type);
 };
 
 //close input form if no need
@@ -53,16 +55,24 @@ toDoSection.addEventListener("click", (e) => {
 });
 
 //check mark of finish todos
-const doneToDo = function (areaId, savedToDos) {
+const doneToDo = function (areaId, elementId, elementType, savedToDos) {
   const toDoList = document.querySelectorAll(".toDoCheckbox");
   toDoList.forEach((checkBox) => {
     checkBox.addEventListener("change", (e) => {
       const label = checkBox.nextElementSibling;
       const labelId = label.getAttribute("id");
-      const areaIdToDo = savedToDos[areaId].areaToDo;
-      const savedToDoData = areaIdToDo[labelId];
+      let areaData = savedToDos[areaId];
+      let storageLocation;
+
+      if (elementType === "Area") {
+        storageLocation = areaData.areaToDo;
+      } else {
+        storageLocation = areaData.areaProjects[elementId];
+      }
+
+      const savedToDoData = storageLocation[labelId];
       const checkedToDo = savedToDoData.checked;
-      //
+      // //
 
       if (checkedToDo) {
         label.classList.remove("checkedToDo");
@@ -72,7 +82,7 @@ const doneToDo = function (areaId, savedToDos) {
       //update memory
       //get id from todo label
 
-      updateCheckedToDo(areaId, labelId, savedToDos);
+      updateCheckedToDo(areaId, elementId, elementType, labelId, areaData);
     });
   });
 };
