@@ -22,4 +22,4 @@ nav.insertAdjacentElement("afterend", btnNewTask);
 main.appendChild(toDoSection);
 
 //load old data
-loadArea(taskAreaCon);
+loadArea();

@@ -3,6 +3,7 @@ import {
   changeAreaPosition,
   displayList,
   closeInput,
+  removeToDo,
 } from "./area";
 import { getAreaName, addArea } from "./areaForm";
 import { openArea } from "./dashboard";
@@ -14,7 +15,9 @@ const captionUl = document.createElement("ul");
 const taskAreaCon = document.createElement("div");
 export const btnNewTask = document.createElement("button");
 //
-
+//area delete button
+const deleteBtn = document.createElement("button");
+deleteBtn.textContent = "Delete";
 //
 const navListCaption = [
   "Inbox",
@@ -29,6 +32,7 @@ const navListCaption = [
 nav.classList.add("nav");
 captionUl.classList.add("cap_ul");
 taskAreaCon.classList.add("taskAreaCon");
+deleteBtn.classList.add("deleteArea");
 btnNewTask.classList.add("btnNewTask");
 //
 //new task btn
@@ -50,31 +54,37 @@ const addNavChild = function (
   }
 };
 
+//adding element to nav section
+nav.appendChild(captionUl);
+addNavChild(navListCaption, captionUl, "li", "cap_li");
+nav.appendChild(taskAreaCon);
+nav.appendChild(deleteBtn);
+
 //load data
-const loadArea = function (taskAreaCon) {
+const loadArea = function () {
   const savedArea = JSON.parse(localStorage.getItem(savedDataKey));
   if (!savedArea) return;
   const areaList = Object.keys(savedArea);
 
+  taskAreaCon.innerHTML = "";
   if (savedArea) {
     areaList.forEach((area) => {
       addArea(taskAreaCon, area);
+
+      let projectContainer = document.querySelector(
+        `#${area}[dataType='Area']`
+      );
+
       if (savedArea[area].areaProjects) {
         let projectList = Object.keys(savedArea[area].areaProjects);
+
         projectList.forEach((project) => {
-          let projectContainer = document.getElementById(area);
           displayList(project, projectContainer);
         });
       }
     });
   }
 };
-//add New Area
-
-//adding element to nav section
-nav.appendChild(captionUl);
-addNavChild(navListCaption, captionUl, "li", "cap_li");
-nav.appendChild(taskAreaCon);
 
 //add new area
 btnNewTask.addEventListener("click", (e) => {
@@ -96,6 +106,21 @@ taskAreaCon.addEventListener("click", (e) => {
 
 //change area position by drag and drop
 changeAreaPosition(taskAreaCon);
+
+//delete area or task
+const deleteAreaHandler = function (handler) {
+  if (handler) {
+    taskAreaCon.removeEventListener("contextmenu", handler);
+  }
+
+  handler = removeToDo;
+  taskAreaCon.addEventListener("contextmenu", handler);
+};
+
+let deleteTask = null;
+deleteAreaHandler(deleteTask);
+
+// remove delete btn when click on right click on other location when delete is on
 
 //access to do area or area's task and open to dashboard
 

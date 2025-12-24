@@ -1,5 +1,5 @@
 import savedDataKey from "./areaForm";
-import { createToDo } from "./toDoSection";
+import { loadArea } from "./nav";
 
 const inputTaskName = `<form  action="" method="get" class="inputForm">
       <input type="text" name="" id="taskName" class = "newTaskInput" minlength="3" autocomplete='off' autofocus/>
@@ -7,6 +7,7 @@ const inputTaskName = `<form  action="" method="get" class="inputForm">
     </form>`;
 
 //
+
 //create a new project
 
 const newProject = function (projectName) {
@@ -33,6 +34,7 @@ const saveList = function (project, area) {
 };
 //add new list to task area
 const displayList = function (taskName, taskArea) {
+  // console.log(taskArea, taskName);
   const taskList = document.createElement("li");
 
   taskList.classList.add("taskList");
@@ -73,6 +75,61 @@ const addNewList = function (eventTarget) {
     getTaskName(taskArea);
   }
 };
+
+//delete area or list
+
+let deleteBtnHandler = null;
+const removeToDo = function (e) {
+  e.preventDefault();
+  if (e.button === 2) {
+    let target = e.target;
+    let top = e.pageY;
+    let right = e.pageX;
+
+    const deleteAreaBtn = document.querySelector(".deleteArea");
+    deleteAreaBtn.classList.add("deleteOn");
+    deleteAreaBtn.style.display = "block";
+    deleteAreaBtn.style.top = `${top}px`;
+    deleteAreaBtn.style.left = `${right}px`;
+
+    if (deleteAreaBtn.classList.contains("deleteOn")) {
+      document.addEventListener("click", () => {
+        deleteAreaBtn.classList.remove("deleteOn");
+        deleteAreaBtn.style.display = "none";
+      });
+    }
+    if (deleteBtnHandler) {
+      deleteAreaBtn.removeEventListener("click", deleteBtnHandler);
+    }
+
+    deleteBtnHandler = () => {
+      console.log(target);
+      let targetId = target.getAttribute("id");
+      let targetType = target.getAttribute("datatype");
+      let targetAreaId = target.parentElement.getAttribute("id");
+      let savedData = JSON.parse(localStorage.getItem(savedDataKey));
+      let areaData = savedData[targetAreaId];
+      console.log(areaData);
+
+      if (targetType) {
+        delete areaData.areaProjects[targetId];
+      } else {
+        delete savedData[targetAreaId];
+      }
+
+      deleteAreaBtn.style.display = "none";
+
+      localStorage.setItem(savedDataKey, JSON.stringify(savedData));
+
+      //reload data to dashboard
+      loadArea();
+    };
+
+    deleteAreaBtn.addEventListener("click", deleteBtnHandler);
+  }
+};
+
+//
 
 //make area draggable
 const changeAreaPosition = function (container) {
@@ -124,4 +181,4 @@ const changeAreaPosition = function (container) {
   });
 };
 
-export { addNewList, closeInput, changeAreaPosition, displayList };
+export { addNewList, closeInput, changeAreaPosition, displayList, removeToDo };
