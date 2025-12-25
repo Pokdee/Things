@@ -136,7 +136,12 @@ const openAreaHandler = function (handler) {
     ) {
       const area = e.target.parentElement;
       const targetId = e.target.getAttribute("id");
-      const targetType = e.target.getAttribute("datatype");
+      let targetType;
+      if (e.target.classList.contains("taskCaption")) {
+        targetType = e.target.parentElement.getAttribute("datatype");
+      } else {
+        targetType = e.target.getAttribute("datatype");
+      }
       openArea(area, targetId, targetType);
     }
   };

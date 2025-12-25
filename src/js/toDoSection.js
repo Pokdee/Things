@@ -56,18 +56,23 @@ const saveToDo = function (areaId, elementId, toDo, elementType) {
 
   const newDataToSave = JSON.stringify(savedItems);
   localStorage.setItem(savedDataKey, newDataToSave);
+
+  //
 };
 
 //open area info to dashboard
 const displayArea = function (areaId, elementId, elementType, container) {
   //clear previous html of todo container
+  let savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
 
+  //
+
+  //do this if there is saved data
+
+  console.log(container);
   container.innerHTML = "";
 
   const toDoHeading = document.querySelector(".toDoHeading");
-  //
-
-  let savedToDos = JSON.parse(localStorage.getItem(savedDataKey));
   let toDoOfId;
   toDoHeading.textContent = elementType === "Area" ? areaId : elementId;
 
@@ -116,6 +121,7 @@ const newToDoInput = function (container, areaId, elementId, elementType) {
         } else {
           storageLocation = areaIdSavedData.areaProjects[elementId];
         }
+
         let storageLocationLength = Object.keys(storageLocation).length;
         let newToDoId = areaIdSavedData ? storageLocationLength : 0;
         //
@@ -124,7 +130,7 @@ const newToDoInput = function (container, areaId, elementId, elementType) {
         const toDo = createToDo(newToDoId, newToDo);
 
         saveToDo(areaId, elementId, toDo, elementType);
-        displayTask(container, toDo);
+        displayArea(areaId, elementId, elementType, container);
         closeToDoInput();
       }
     }
@@ -141,8 +147,6 @@ const updateCheckedToDo = function (
   todoId,
   areaData
 ) {
-  console.log(areaData);
-
   let storageLocation;
   if (elementType === "Area") {
     storageLocation = areaData.areaToDo;

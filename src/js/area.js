@@ -1,5 +1,6 @@
 import savedDataKey from "./areaForm";
 import { loadArea } from "./nav";
+import { displayArea } from "./toDoSection";
 
 const inputTaskName = `<form  action="" method="get" class="inputForm">
       <input type="text" name="" id="taskName" class = "newTaskInput" minlength="3" autocomplete='off' autofocus/>
@@ -103,13 +104,11 @@ const removeToDo = function (e) {
     }
 
     deleteBtnHandler = () => {
-      console.log(target);
       let targetId = target.getAttribute("id");
       let targetType = target.getAttribute("datatype");
       let targetAreaId = target.parentElement.getAttribute("id");
       let savedData = JSON.parse(localStorage.getItem(savedDataKey));
       let areaData = savedData[targetAreaId];
-      console.log(areaData);
 
       if (targetType) {
         delete areaData.areaProjects[targetId];
@@ -122,7 +121,14 @@ const removeToDo = function (e) {
       localStorage.setItem(savedDataKey, JSON.stringify(savedData));
 
       //reload data to dashboard
+      //empty obj is not falsy
       loadArea();
+
+      const toDoHeading = document.querySelector(".toDoHeading");
+      const projectUl = document.querySelector(".projectUl");
+      const toDoUl = document.querySelector(".toDoUl");
+
+      toDoHeading.innerHTML = projectUl.innerHTML = toDoUl.innerHTML = "";
     };
 
     deleteAreaBtn.addEventListener("click", deleteBtnHandler);

@@ -42,6 +42,7 @@ toDoUl.insertAdjacentHTML("afterend", inputToDoHtml);
 const openArea = function (area, elementId, type) {
   let areaId = area.getAttribute("id");
 
+  console.log(toDoUl);
   displayArea(areaId, elementId, type, toDoUl);
 
   newToDoInput(toDoUl, areaId, elementId, type);
@@ -74,6 +75,7 @@ const doneToDo = function (areaId, elementId, elementType, savedToDos) {
       const checkedToDo = savedToDoData.checked;
       // //
 
+      console.log(checkedToDo);
       if (checkedToDo) {
         label.classList.remove("checkedToDo");
       } else {
